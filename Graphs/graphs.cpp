@@ -1,31 +1,31 @@
 #include "graphs.h"
 
 std::vector<int> Deikstra(graph g, int startVertex,int lastVertex) {
-    std::vector<bool> visited(g.size,false);//посещенные вершины
-    std::vector<int> distances(g.size, INT16_MAX); // кратчайшие пути из стартовой вершины
-    std::vector<int> path; // кратчайший путь
+    std::vector<bool> visited(g.size,false);//ГЇГ®Г±ГҐГ№ГҐГ­Г­Г»ГҐ ГўГҐГ°ГёГЁГ­Г»
+    std::vector<int> distances(g.size, INT16_MAX); // ГЄГ°Г ГІГ·Г Г©ГёГЁГҐ ГЇГіГІГЁ ГЁГ§ Г±ГІГ Г°ГІГ®ГўГ®Г© ГўГҐГ°ГёГЁГ­Г»
+    std::vector<int> path; // ГЄГ°Г ГІГ·Г Г©ГёГЁГ© ГЇГіГІГј
     visited.resize(g.size);
     distances.resize(g.size);
 
-    std::vector<vertex> vertices = g.vertices; // список вершин графа
+    std::vector<vertex> vertices = g.vertices; // Г±ГЇГЁГ±Г®ГЄ ГўГҐГ°ГёГЁГ­ ГЈГ°Г ГґГ 
     int temp, minindex, min;
     distances[startVertex] = 0;
     int k=0;
-    // Шаг алгоритма
+    // ГГ ГЈ Г Г«ГЈГ®Г°ГЁГІГ¬Г 
     do {
         minindex = INT16_MAX;
         min = INT16_MAX;
         for (int i = 0; i < g.size; i++)
-        { // Если вершину ещё не обошли и вес меньше min
+        { // Г…Г±Г«ГЁ ГўГҐГ°ГёГЁГ­Гі ГҐГ№Вё Г­ГҐ Г®ГЎГ®ГёГ«ГЁ ГЁ ГўГҐГ± Г¬ГҐГ­ГјГёГҐ min
             if ((visited[i] == 0) && (distances[i] < min))
-            { // Переприсваиваем значения
+            { // ГЏГҐГ°ГҐГЇГ°ГЁГ±ГўГ ГЁГўГ ГҐГ¬ Г§Г­Г Г·ГҐГ­ГЁГї
                 min = distances[i];
                 minindex = i;
             }
         }
-        // Добавляем найденный минимальный вес
-        // к текущему весу вершины
-        // и сравниваем с текущим минимальным весом вершины
+        // Г„Г®ГЎГ ГўГ«ГїГҐГ¬ Г­Г Г©Г¤ГҐГ­Г­Г»Г© Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г»Г© ГўГҐГ±
+        // ГЄ ГІГҐГЄГіГ№ГҐГ¬Гі ГўГҐГ±Гі ГўГҐГ°ГёГЁГ­Г»
+        // ГЁ Г±Г°Г ГўГ­ГЁГўГ ГҐГ¬ Г± ГІГҐГЄГіГ№ГЁГ¬ Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г»Г¬ ГўГҐГ±Г®Г¬ ГўГҐГ°ГёГЁГ­Г»
         if (minindex != INT16_MAX)
         {
             for (auto edg:vertices[minindex].edgeList)
@@ -38,22 +38,22 @@ std::vector<int> Deikstra(graph g, int startVertex,int lastVertex) {
             }
             visited[minindex] = true;
         }
-    } while (minindex < 10000);
+    } while (minindex < INT16_MAX);
 
-    // Восстановление пути 
+    // Г‚Г®Г±Г±ГІГ Г­Г®ГўГ«ГҐГ­ГЁГҐ ГЇГіГІГЁ 
     path.insert(path.begin(), lastVertex);
-    int weight = distances[lastVertex]; // вес конечной вершины
+    int weight = distances[lastVertex]; // ГўГҐГ± ГЄГ®Г­ГҐГ·Г­Г®Г© ГўГҐГ°ГёГЁГ­Г»
 
-    while (lastVertex != startVertex) // пока не дошли до начальной вершины
+    while (lastVertex != startVertex) // ГЇГ®ГЄГ  Г­ГҐ Г¤Г®ГёГ«ГЁ Г¤Г® Г­Г Г·Г Г«ГјГ­Г®Г© ГўГҐГ°ГёГЁГ­Г»
     {
         for (auto edg : vertices[lastVertex].edgeList)
         {
-            temp = weight - edg.weight; // определяем вес пути из предыдущей вершины
-            if (temp == distances[edg.dest]) // если вес совпал с рассчитанным
-            {                 // значит из этой вершины и был переход
-                weight = temp; // сохраняем новый вес
-                lastVertex = edg.dest;       // сохраняем предыдущую вершину
-                path.insert(path.begin(), edg.dest); // и записываем ее в массив
+            temp = weight - edg.weight; // Г®ГЇГ°ГҐГ¤ГҐГ«ГїГҐГ¬ ГўГҐГ± ГЇГіГІГЁ ГЁГ§ ГЇГ°ГҐГ¤Г»Г¤ГіГ№ГҐГ© ГўГҐГ°ГёГЁГ­Г»
+            if (temp == distances[edg.dest]) // ГҐГ±Г«ГЁ ГўГҐГ± Г±Г®ГўГЇГ Г« Г± Г°Г Г±Г±Г·ГЁГІГ Г­Г­Г»Г¬
+            {                 // Г§Г­Г Г·ГЁГІ ГЁГ§ ГЅГІГ®Г© ГўГҐГ°ГёГЁГ­Г» ГЁ ГЎГ»Г« ГЇГҐГ°ГҐГµГ®Г¤
+                weight = temp; // Г±Г®ГµГ°Г Г­ГїГҐГ¬ Г­Г®ГўГ»Г© ГўГҐГ±
+                lastVertex = edg.dest;       // Г±Г®ГµГ°Г Г­ГїГҐГ¬ ГЇГ°ГҐГ¤Г»Г¤ГіГ№ГіГѕ ГўГҐГ°ГёГЁГ­Гі
+                path.insert(path.begin(), edg.dest); // ГЁ Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ ГҐГҐ Гў Г¬Г Г±Г±ГЁГў
                 break;
             }
         }
